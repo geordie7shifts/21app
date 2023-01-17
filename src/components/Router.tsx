@@ -1,27 +1,32 @@
-import { useState } from "react";
 import { View } from "react-native";
+import { useSelector } from "react-redux";
 import { Col } from "../elements/Col";
 import { Row } from "../elements/Row";
 import { Text } from "../elements/Text";
+import { Screens } from "../types/screens";
+import { RootState } from "../types/store";
 import { Dashboard } from "../views/Dashboard";
-import { MenuBar } from "./MenuBar";
-import { SelectPlayers } from "./NewGameWizard/SelectPlayers";
+import { NewGameWizard } from "./NewGameWizard/NewGameWizard";
+import { RecordGame } from "./RecordGame";
 
 export const Router = () => {
-  const [screen, setScreen] = useState(0);
+  const { screenHistory, headerText } = useSelector(
+    (state: RootState) => state.settings
+  );
 
-  const screens = [
-    {
-      icon: "",
-      name: "Dashboard",
+  const screen = screenHistory[screenHistory.length - 1];
+
+  const screens = {
+    [Screens.Dashboard]: {
       component: <Dashboard />,
     },
-    {
-      icon: "",
-      name: "Game",
-      component: <SelectPlayers />,
+    [Screens.NewGame]: {
+      component: <NewGameWizard />,
     },
-  ];
+    [Screens.RecordGame]: {
+      component: <RecordGame />,
+    },
+  };
 
   return (
     <Col
@@ -31,7 +36,7 @@ export const Router = () => {
     >
       {/* header */}
       <Row justifyContent="center">
-        <Text>Header</Text>
+        <Text>{headerText}</Text>
       </Row>
       <View
         style={{
@@ -40,14 +45,6 @@ export const Router = () => {
       >
         {screens[screen].component}
       </View>
-      <MenuBar
-        buttons={screens}
-        onClick={(i) => {
-          console.log("switching to screen", screens[i].name);
-          setScreen(i);
-        }}
-        selected={screen}
-      />
     </Col>
   );
 };

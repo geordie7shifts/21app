@@ -1,7 +1,8 @@
-import { StyleSheet, Text as T } from "react-native";
+import { StyleSheet, Text as T, TextStyle } from "react-native";
 import { FontSize } from "../styles/consts";
+import { Stylable } from "../types/styles";
 
-interface Props {
+interface Props extends Stylable<TextStyle> {
   size?: FontSize;
   color?: string;
   children?: any;
@@ -18,7 +19,7 @@ export const Text = (props: Props) => {
     },
   });
   return (
-    <T onPress={props.onClick} style={styles.container}>
+    <T onPress={props.onClick} style={[styles.container, props.style]}>
       {props.children}
     </T>
   );

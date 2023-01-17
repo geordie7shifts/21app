@@ -13,9 +13,18 @@ interface Props {
 export const PlayerToggle = ({ player, selected, onClick }: Props) => {
   return (
     <Pressable onPress={() => onClick(player)}>
-      <Row justifyContent="space-between" alignItems="center" style={{}}>
+      <Row
+        justifyContent="space-between"
+        alignItems="center"
+        style={{
+          backgroundColor: selected ? "lightgreen" : "transparent",
+          zIndex: -1,
+          borderRadius: 5,
+          marginBottom: 5,
+          padding: 5,
+        }}
+      >
         <Text size={FontSize.xl}>{player.name}</Text>
-        {selected && <Text>∆</Text>}
       </Row>
     </Pressable>
   );

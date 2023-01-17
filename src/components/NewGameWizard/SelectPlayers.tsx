@@ -1,10 +1,11 @@
 import { ScrollView } from "react-native";
-import { useDispatch } from "react-redux";
 import { Col } from "../../elements/Col";
+import { Row } from "../../elements/Row";
 import { Text } from "../../elements/Text";
 import { usePlayers } from "../../hooks/usePlayers";
 import { FontSize } from "../../styles/consts";
 import { Player } from "../../types/players";
+import { AddPlayer } from "../AddPlayer";
 import { PlayerToggle } from "./PlayerToggle";
 
 interface Props {
@@ -17,14 +18,11 @@ export const SelectPlayers = ({
   setSelectedPlayers,
 }: Props) => {
   const playerList = usePlayers();
-  const dispatch = useDispatch();
 
   const togglePlayer = (player: Player) => {
     if (selectedPlayers.includes(player)) {
-      console.log("toggling", player.name, "on");
       setSelectedPlayers(selectedPlayers.filter((p) => p.id != player.id));
     } else {
-      console.log("toggling", player.name, "off");
       setSelectedPlayers([...selectedPlayers, player]);
     }
   };
@@ -34,21 +32,14 @@ export const SelectPlayers = ({
   };
 
   return (
-    <Col
-      style={{
-        padding: 15,
-      }}
-    >
+    <Col>
+      <AddPlayer />
       <Text size={FontSize.lg}>Who's Playing?</Text>
       <ScrollView
         style={{
-          borderWidth: 2,
           marginTop: 10,
-          marginBottom: 40,
+          marginBottom: 20,
           padding: 15,
-          borderRadius: 20,
-          height: 200,
-          maxHeight: 400,
           flex: 1,
         }}
       >
@@ -62,6 +53,7 @@ export const SelectPlayers = ({
             />
           );
         })}
+        <Row style={{ height: 10 }}></Row>
       </ScrollView>
     </Col>
   );
